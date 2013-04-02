@@ -1,0 +1,126 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title id="page-title">ExtJS 4.x Multi-select Drag and Drop Fixes Demo</title>
+    <link rel="stylesheet" href="http://cdn.sencha.io/ext-4.2.0-gpl/resources/ext-theme-classic/ext-theme-classic-all.css">
+    <script type="text/javascript" charset="utf-8" src="http://cdn.sencha.io/ext-4.2.0-gpl/ext-all.js"></script>
+    <script type="text/javascript" charset="utf-8" src="fixes-treednd.js"></script>
+    <script>
+    
+Ext.require([
+    'Ext.tree.*',
+    'Ext.data.Model',
+    'Ext.util.Point',
+    'fixes.TreeDnD'
+]);
+
+// Basic two tree drag and drop demo...
+Ext.define('Item', {
+    extend: 'Ext.data.Model',
+    fields: ['text']
+});
+
+Ext.application({
+	name: "Test1",
+	launch: function() {
+        Ext.create('Ext.container.Viewport', {
+            layout: 'fit',
+            items: [
+				{
+					width: 300,
+					height: 200,
+					layout: {
+						type: 'hbox',
+						align: 'stretch'
+					},
+					defaultType: 'treepanel',
+					defaults: {
+						rootVisible: false,
+						flex: 1
+					},
+					items: [
+						{
+							title: 'Source',
+							store: Ext.create('Ext.data.TreeStore', {
+								model: 'Item',
+								root: {
+									text: 'Root 1',
+									expanded: true,
+									children: [{
+										text: 'Child 1',
+										leaf: true
+									}, {
+										text: 'Child 2',
+										leaf: true
+									}, {
+										text: 'Child 3',
+										leaf: true
+									}, {
+										text: 'Child 4',
+										leaf: true
+									}]
+								}
+							}),
+							selModel: Ext.create('Ext.selection.TreeModel', {
+								mode: 'MULTI',
+							}),
+							viewConfig: {
+								plugins: {
+								   ptype: 'treeviewdragdrop',
+								   enableDrag: true,
+								   enableDrop: true
+								}
+							}
+						}, {
+							title: 'Destination',
+							store: Ext.create('Ext.data.TreeStore', {
+								model: 'Item',
+								root: {
+									text: 'Root 2',
+									expanded: true,
+									children: [{
+										text: 'Folder 1',
+										children: [],
+										expanded: false
+									}, {
+										text: 'Folder 2',
+										children: [],
+										expanded: false
+									}, {
+										text: 'Folder 3',
+										children: [],
+										expanded: false
+									}, {
+										text: 'Folder 4',
+										children: [],
+										expanded: true
+									}, {
+										text: 'Folder 5',
+										children: [],
+										expanded: true
+									}]
+								}
+							}),
+							selModel: Ext.create('Ext.selection.TreeModel', {
+								mode: 'MULTI',
+							}),
+							viewConfig: {
+								plugins: {
+								   ptype: 'treeviewdragdrop',
+								   enableDrag: true,
+								   enableDrop: true
+								}
+							}
+						}
+					]
+				}
+			]
+        });
+	}
+});
+
+    </script>
+</head>
+<body></body>
+</html>
